@@ -3,8 +3,18 @@
 > 在常见的web应用中，常见的数据库字段会使用字典值，但是在数据查询时，我们需要将存储的字典值转换成对应的字典标签(value>>name)。常见的转换方式为从数据库查询、逻辑包装等。
 
 #### 使用详情
+1. maven引入
+   ```xml
+      <!-- https://mvnrepository.com/artifact/com.github.mujave/dict-translate-spring-boot-starter -->
+      <dependency>
+          <groupId>com.github.mujave</groupId>
+          <artifactId>dict-translate-spring-boot-starter</artifactId>
+          <version>1.0.0</version>
+      </dependency>
 
-1. 第一步，**实现DictCacheService接口**，并将这个对象交给Spring 容器，否则扩展将不会自动生效
+   ```
+   
+2. **实现DictCacheService接口**，并将这个对象交给Spring 容器，否则扩展将不会自动生效
 
    ```java
    @Component
@@ -34,7 +44,7 @@
    }
    ```
 
-2. 在需要翻译的方法或字段上使用扩展中定义的标签
+3. 在需要翻译的方法或字段上使用扩展中定义的标签
 
    详情参照[演示demo](https://github.com/mujave/dict-traslate-starter/tree/main/dict-translate-demo)
 
