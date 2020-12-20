@@ -31,8 +31,8 @@ public @interface Dict {
 
     /**
      * 字段是否存储多个字典code,需要英文逗号分隔进行切割。例如，使用此注解的字段值为1,2，
-     * 在用的字典中有{1->男,2->女}这样的定义，当 multiple 为true时会现将1,2(String)拆分为[1,2]，然后翻译为"男,女"，
-     * 最终存放在targetField指明的字段值中
+     * 在用的字典中有{1-男,2-女}这样的定义，当 multiple 为true时会现将1,2(String)拆分为[1,2]，然后翻译为"男,女",
+     * 最终存放在targetField指明的字段值中.
      */
     boolean multiple() default false;
 

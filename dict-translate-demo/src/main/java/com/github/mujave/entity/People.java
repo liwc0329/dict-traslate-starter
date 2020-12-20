@@ -7,6 +7,7 @@ import com.github.mujave.annotation.DictEntity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  **/
 @Data
 @Builder
-public class People {
+public class People<T> {
     private Integer id;
     private String name;
     @Dict(dictName = "sex")
@@ -24,5 +25,5 @@ public class People {
     @DictEntity
     private DrivingLicense drivingLicense;
     @DictCollection
-    private List<Car> car;
+    private List<T> car;
 }

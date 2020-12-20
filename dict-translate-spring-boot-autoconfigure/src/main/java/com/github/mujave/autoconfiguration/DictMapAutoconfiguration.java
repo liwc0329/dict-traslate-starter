@@ -1,7 +1,7 @@
 package com.github.mujave.autoconfiguration;
 
-import com.github.mujave.annotation.DcitMapper;
 import com.github.mujave.annotation.DictMap;
+import com.github.mujave.annotation.DictMapper;
 import com.github.mujave.entity.DataDictDTO;
 import com.github.mujave.service.DictCacheService;
 import com.google.common.collect.BiMap;
@@ -132,9 +132,9 @@ public class DictMapAutoconfiguration implements PriorityOrdered {
      * @param mappers 要收集的类型
      * @return 定义的字典目录信息
      */
-    private List<DataDictDTO> getDictMapping(DcitMapper[] mappers) {
+    private List<DataDictDTO> getDictMapping(DictMapper[] mappers) {
         List<DataDictDTO> list = new ArrayList<>();
-        for (DcitMapper mapper : mappers) {
+        for (DictMapper mapper : mappers) {
             //收集字典翻译参数信息
             DataDictDTO dataDictDTO = new DataDictDTO(mapper.fieldName(), dictCacheService.getDictMapByName(mapper.dictName()), mapper.targetField(), mapper.multiple(), mapper.nullValueName(), mapper.undefinedValue());
             list.add(dataDictDTO);

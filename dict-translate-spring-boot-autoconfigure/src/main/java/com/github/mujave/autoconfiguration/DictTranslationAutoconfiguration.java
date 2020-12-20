@@ -26,7 +26,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字典翻译切面
@@ -177,6 +179,7 @@ public class DictTranslationAutoconfiguration implements PriorityOrdered {
         DataDictDTO dataDictDTO;
         Dict dict;
         for (Field field : fields) {
+            field.setAccessible(true);
             if (field.isAnnotationPresent(Dict.class)) {
                 dict = field.getAnnotation(Dict.class);
                 //收集字典翻译参数信息
@@ -205,6 +208,8 @@ public class DictTranslationAutoconfiguration implements PriorityOrdered {
                     } else {
                         log.error(field.getName() + "'s class type equals with parent is true");
                     }
+                }else if (genericType instanceof Collection){
+                    Collection c = (Collection) genericType;
                 }
             }
         }

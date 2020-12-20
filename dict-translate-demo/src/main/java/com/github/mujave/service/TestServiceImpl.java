@@ -1,7 +1,7 @@
 package com.github.mujave.service;
 
-import com.github.mujave.annotation.DcitMapper;
 import com.github.mujave.annotation.DictMap;
+import com.github.mujave.annotation.DictMapper;
 import com.github.mujave.annotation.DictTranslation;
 import com.github.mujave.entity.Car;
 import com.github.mujave.entity.DrivingLicense;
@@ -43,8 +43,8 @@ public class TestServiceImpl {
     }
 
     @DictMap({
-            @DcitMapper(fieldName = "sex", dictName = "sex"),
-            @DcitMapper(fieldName = "carColor", dictName = "car:color")
+            @DictMapper(fieldName = "sex", dictName = "sex"),
+            @DictMapper(fieldName = "carColor", dictName = "car:color")
     })
     public HashMap<String, String> testMap() {
         HashMap<String, String> map = new HashMap<>();
