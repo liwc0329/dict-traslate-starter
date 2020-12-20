@@ -16,7 +16,7 @@ import java.util.List;
  **/
 @Data
 @Builder
-public class People<T> {
+public class People {
     private Integer id;
     private String name;
     @Dict(dictName = "sex")
@@ -25,5 +25,5 @@ public class People<T> {
     @DictEntity
     private DrivingLicense drivingLicense;
     @DictCollection
-    private List<T> car;
+    private List<Car> car;
 }
