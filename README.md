@@ -75,7 +75,7 @@
         * 根据“license:type”这个字典进行翻译
         * multiple 表示这个字段存在多个字典值，需要根据,进行分割，一一翻译在一起放到typeName中
         */
-    	@Dict(dictName = "license:type", multiple = true)
+       @Dict(dictName = "license:type", multiple = true)
        private String type;//驾驶证准驾车型代码，使用字典表
        private String typeName;
    }
