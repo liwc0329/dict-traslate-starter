@@ -2,19 +2,19 @@
 
 > 在常见的web应用中，常见的数据库字段会使用字典值，但是在数据查询时，我们需要将存储的字典值转换成对应的字典标签(value>>name)。常见的转换方式为从数据库查询、逻辑包装等。
 
-#### 使用详情
-1. maven引入
-   ```xml
-      <!-- https://mvnrepository.com/artifact/com.github.mujave/dict-translate-spring-boot-starter -->
-      <dependency>
-          <groupId>com.github.mujave</groupId>
-          <artifactId>dict-translate-spring-boot-starter</artifactId>
-          <version>1.0.1</version>
-      </dependency>
+#### 使用方式
+1. 首先你的项目需要是一个如果你的项目是Maven的话，可以直接使用一下配置引入
+```xml
+<!-- https://mvnrepository.com/artifact/com.github.mujave/dict-translate-spring-boot-starter -->
+<dependency>
+    <groupId>com.github.mujave</groupId>
+    <artifactId>dict-translate-spring-boot-starter</artifactId>
+    <version>1.0.1</version>
+</dependency>
+```
+*使用其他管控方式的项目可以到中央仓库中搜索坐标查看配置方式*
 
-   ```
-   
-2. **实现DictCacheService接口**，并将这个对象交给Spring 容器，否则扩展将不会自动生效
+2. 第二步，需要**实现DictCacheService接口**，并将这个对象交给Spring 容器，否则扩展将不会自动生效
 
    ```java
    @Component
@@ -44,9 +44,79 @@
    }
    ```
 
-3. 在需要翻译的方法或字段上使用扩展中定义的标签
+3. 字典翻译
 
-   详情参照[演示demo](https://github.com/mujave/dict-traslate-starter/tree/main/dict-translate-demo)
+   这里描述这样一个场景，系统有定义用户1:1驾照、用户1:*车车两种关系。
+
+   ```java
+   /**
+    * 车车
+    */
+   @Data
+   @Builder
+   public class Car {
+       private String name;
+       // 根据“car:color”这个字典进行翻译，翻译后的值name放到carColor这个字段中，targetField 默认为翻译字段名称 + Name
+       @Dict(dictName = "car:color",targetField = "carColor")
+       private Integer color; //汽车颜色代码，使用字典表
+       private  String carColor;
+   }
+   ``````
+   
+   ```java
+   /**
+    * 驾照
+    */
+   @Data
+   @Builder
+   public class DrivingLicense {
+       private String number;
+       /*
+        * 根据“license:type”这个字典进行翻译
+        * multiple 表示这个字段存在多个字典值，需要根据,进行分割，一一翻译在一起放到typeName中
+        */
+    	@Dict(dictName = "license:type", multiple = true)
+       private String type;//驾驶证准驾车型代码，使用字典表
+       private String typeName;
+   }
+   ```
+   
+   ```java
+   /**
+    * 用户
+    */
+   @Data
+   @Builder
+   public class People {
+       private Integer id;
+       private String name;
+       @Dict(dictName = "sex") 
+       private Integer sex;//用户性别代码，使用字典表
+       private String sexName;
+       @DictEntity  //注解说明这个属性是一个需要进行翻译的类
+       private DrivingLicense drivingLicense; //用户的驾驶证  1:1
+       @DictCollection  //注解说明这个属性是一个需要进行翻译的集合
+       private List<Car> car; //用户的车车 1:*
+   }
+   ```
+   
+   ```java
+   //@DictTranslation用于方法，说明这个方法的返回值需要进行字典翻译
+   @DictTranslation
+   public People testDict() {
+       DrivingLicense license = DrivingLicense.builder().number("102312000311").type("C1,D").build();
+       Car car1 = Car.builder().name("沃尔沃").color(1).build();
+       Car car2 = Car.builder().name("大奔").color(2).build();
+       People mujave = People.builder().id(1).name("mujave").sex(1).car(Arrays.asList(car1, car2)).drivingLicense(license).build();
+       return mujave;
+   }
+   ```
+   
+   > testDict 返回输出如下
+   >
+   > People(id=1, name=mujave, sex=1, sexName=男, drivingLicense=DrivingLicense(number=102312000311, type=C1,D, typeName=小型汽车,普通三轮摩托车), car=[Car(name=沃尔沃, color=1, carColor=芭比粉), Car(name=大奔, color=2, carColor=烈焰红)])
+
+另外对于返回值是java.util.Map类型的方法可以使用@DictMap和@DictMapper进行翻译字段的描述。其他参数可以参照下面的注解说明。其他请点击 [完整的实例demo](https://github.com/mujave/dict-traslate-starter/tree/main/dict-translate-demo)
 
 #### 注解说明
 
