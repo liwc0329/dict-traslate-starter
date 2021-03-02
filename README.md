@@ -9,7 +9,7 @@
 <dependency>
     <groupId>com.github.mujave</groupId>
     <artifactId>dict-translate-spring-boot-starter</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 *使用其他管控方式的项目可以到中央仓库中搜索坐标查看配置方式*
