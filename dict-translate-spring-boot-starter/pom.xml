@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.github.mujave</groupId>
     <artifactId>dict-translate-spring-boot-starter</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>dict-translate-spring-boot-starter</name>
     <description>Demo project for Spring Boot</description>
 

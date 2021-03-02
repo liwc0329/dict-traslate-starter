@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.PriorityOrdered;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,22 +104,23 @@ public class DictMapAutoconfiguration implements PriorityOrdered {
             String nullValue = dataDictDTO.getNullValue();
             String undefinedValue = dataDictDTO.getUndefinedValue();
             BiMap<String, String> dict = dataDictDTO.getDictDetail();
-            String preValue = entity.get(dataDictDTO.getSourceField()).toString();
-            if (StringUtils.isNotEmpty(preValue)) {
+            Object preValue = entity.get(dataDictDTO.getSourceField());
+            if (!ObjectUtils.isEmpty(preValue)) {
+                String preValueS = preValue.toString();
                 if (dataDictDTO.isMultiple()) {
                     StringBuffer buffer = new StringBuffer();
-                    String[] strings = preValue.split(",");
+                    String[] strings = preValueS.split(",");
                     for (String string : strings) {
                         String name = dict.get(string);
                         buffer.append(name == null ? undefinedValue : name).append(",");
                     }
                     entity.put(targetField, buffer.deleteCharAt(buffer.length() - 1).toString());
                 } else {
-                    String name = dict.get(preValue);
+                    String name = dict.get(preValueS);
                     entity.put(targetField, name == null ? undefinedValue : name);
                 }
             } else {
-                entity.put(entity, nullValue);
+                entity.put(targetField, nullValue);
             }
 
         }
